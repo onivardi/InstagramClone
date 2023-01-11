@@ -31,19 +31,17 @@ export default StyleSheet.create({
         flexDirection: 'row',
         marginBottom: 5,
     },
-    icon: {
-        marginHorizontal: 5
-    },
     text: {
         color: colors.black,
         lineHeight: 18,
     },
+    icon: {
+        marginHorizontal: 5
+    },
+
     bold: {
         fontWeight: fonts.weight.bold
     },
-    comment: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    }
 
+    
 })

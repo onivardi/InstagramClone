@@ -2,18 +2,21 @@ import React from 'react';
 import { Image, Text, View } from 'react-native';
 
 import { colors } from '../../themes/colors';
-import styles  from './styles';
+import styles from './styles';
 
 import Entypo from "react-native-vector-icons/Entypo";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Comment from '../Comment/Comment';
 
+import { IPost } from '../../types/models';
 
+type FeedPostType = {
+    post: IPost
+}
 
-
-
-const FeedPost = () => {
+const FeedPost = ({post}: FeedPostType) => {
 
     return (
         <View style={styles.post}>
@@ -21,16 +24,16 @@ const FeedPost = () => {
             {/* Header */}
             <View style={styles.header}>
                 <Image
-                    source={{ uri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/1.jpg' }}
+                    source={{ uri: post.user.image }}
                     style={styles.userAvatar} />
-                <Text style={styles.userName}>vadimnotjustdev</Text>
+                <Text style={styles.userName}>{post.user.username}</Text>
 
                 <Entypo name='dots-three-horizontal' size={16} />
             </View>
 
             {/* Content */}
             <Image source={{
-                uri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/1.jpg'
+                uri: post.image
             }}
                 style={styles.image}
             />
@@ -46,29 +49,23 @@ const FeedPost = () => {
 
                 {/* Likes */}
                 <Text>Liked by <Text style={styles.bold}>
-                    lgrinevicius</Text> and <Text style={styles.bold}>66 other</Text>
+                    lgrinevicius</Text> and <Text style={styles.bold}>{post.nofLikes} other</Text>
                 </Text>
 
                 {/* Post description */}
                 <Text style={styles.text}>
-                    <Text style={styles.bold}>vadimnotjustdef </Text>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Vero voluptatibus voluptates, aliquam deleniti inventore nulla ducimus,
-                    corporis consectetur ullam molestiae necessitatibus voluptatum porro
-                    dolor aliquid nam? Illum aliquid sint beatae.
+                    <Text style={styles.bold}>{post.user.username} </Text>
+                    {post.description}
                 </Text>
 
                 {/* Comments */}
-                <Text>View all 16 comments</Text>
-                <View style={styles.comment}>
-                    <Text style={styles.text}>
-                        <Text style={styles.bold}>vadimnotjustdev</Text> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </Text>
-                    <AntDesign name='hearto' style={styles.icon} color={colors.black} />
-                </View>
+                {post.comments.map(comment => (
+                    <Comment comment={comment} key={comment.id} />
+                ))}
+
 
                 {/* Posted date */}
-                <Text>10 January, 2023</Text>
+                <Text>{post.createdAt}</Text>
             </View>
         </View>
     )
