@@ -1,5 +1,5 @@
-import React from 'react';
-import { Image, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, Text, View, Pressable } from 'react-native';
 
 import { colors } from '../../themes/colors';
 import styles from './styles';
@@ -12,11 +12,22 @@ import Comment from '../Comment/Comment';
 
 import { IPost } from '../../types/models';
 
+
 type FeedPostType = {
     post: IPost
 }
 
-const FeedPost = ({post}: FeedPostType) => {
+const FeedPost = ({ post }: FeedPostType) => {
+    const [expandDescription, setExpandDescription] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
+
+    const toggleDescriptionExpand = () => {
+        setExpandDescription(currentValue => !currentValue);
+    }
+
+    const toggleLiked = () => {
+        setIsLiked(currentValue => !currentValue);
+    }
 
     return (
         <View style={styles.post}>
@@ -41,7 +52,9 @@ const FeedPost = ({post}: FeedPostType) => {
             {/* Footer */}
             <View style={styles.footer}>
                 <View style={styles.iconContainer}>
-                    <AntDesign name='heart' size={24} style={styles.icon} color={colors.black} />
+                    <Pressable onPress={toggleLiked}>
+                        <AntDesign  name={isLiked ? 'heart' : 'hearto'} size={24} style={styles.icon} color={isLiked ? colors.accent : colors.black} />
+                    </Pressable>
                     <Ionicons name='chatbubble-outline' size={24} style={styles.icon} color={colors.black} />
                     <Feather name='send' size={24} style={[styles.icon, { flexGrow: 1 }]} color={colors.black} />
                     <Feather name='bookmark' size={24} color={colors.black} />
@@ -53,12 +66,14 @@ const FeedPost = ({post}: FeedPostType) => {
                 </Text>
 
                 {/* Post description */}
-                <Text style={styles.text}>
+                <Text style={styles.text} numberOfLines={expandDescription ? 0 : 3}>
                     <Text style={styles.bold}>{post.user.username} </Text>
                     {post.description}
                 </Text>
+                <Text onPress={toggleDescriptionExpand}>{expandDescription ? 'less' : 'more'}</Text>
 
                 {/* Comments */}
+                <Text>View all {post.comments.length} comments</Text>
                 {post.comments.map(comment => (
                     <Comment comment={comment} key={comment.id} />
                 ))}

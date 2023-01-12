@@ -11,8 +11,8 @@ type CommentType = {
 
 
 const Comment = ({comment}: CommentType) => {
-    return (
-        <View style={styles.comment}>
+    return (        
+        <View style={styles.comment}>           
             <Text style={styles.commentText}>
                 <Text style={styles.bold}>{comment.user.username} </Text> 
                 {comment.comment}
