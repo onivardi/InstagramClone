@@ -9,19 +9,14 @@
  */
 
 import React from 'react';
-import { StyleSheet, ScrollView, FlatList, View } from 'react-native';
-import FeedPost from './src/components/FeedPost';
-import posts from './src/assets/data/posts.json';
+import { StyleSheet, View } from 'react-native';
+
+import HomeScreen from './src/components/screens/HomeScreen/HomeScreen';
 
 const App = () => {
   return (
     <View style={styles.app}>
-      <FlatList 
-        data={posts} 
-        renderItem={({item}) => <FeedPost post={item}/>}
-        showsVerticalScrollIndicator={false}
-        />
-
+      <HomeScreen />
     </View>
   )
 };
@@ -30,7 +25,6 @@ const styles = StyleSheet.create({
   app: {
     flex: 1,
   }
-
 });
 
 export default App;
