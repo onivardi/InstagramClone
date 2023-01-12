@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, Text, View, Pressable } from 'react-native';
+import { Image, Text, View, Pressable, TouchableOpacity } from 'react-native';
 
 import { colors } from '../../themes/colors';
 import styles from './styles';
@@ -11,6 +11,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Comment from '../Comment/Comment';
 
 import { IPost } from '../../types/models';
+
+import DoublePressable from '../DoublePress';
 
 
 type FeedPostType = {
@@ -29,6 +31,8 @@ const FeedPost = ({ post }: FeedPostType) => {
         setIsLiked(currentValue => !currentValue);
     }
 
+    
+
     return (
         <View style={styles.post}>
 
@@ -43,17 +47,16 @@ const FeedPost = ({ post }: FeedPostType) => {
             </View>
 
             {/* Content */}
-            <Image source={{
-                uri: post.image
-            }}
-                style={styles.image}
-            />
+
+            <DoublePressable onDoublePress={toggleLiked}>
+                <Image source={{uri: post.image}}style={styles.image}/>
+            </DoublePressable>
 
             {/* Footer */}
             <View style={styles.footer}>
                 <View style={styles.iconContainer}>
                     <Pressable onPress={toggleLiked}>
-                        <AntDesign  name={isLiked ? 'heart' : 'hearto'} size={24} style={styles.icon} color={isLiked ? colors.accent : colors.black} />
+                        <AntDesign name={isLiked ? 'heart' : 'hearto'} size={24} style={styles.icon} color={isLiked ? colors.accent : colors.black} />
                     </Pressable>
                     <Ionicons name='chatbubble-outline' size={24} style={styles.icon} color={colors.black} />
                     <Feather name='send' size={24} style={[styles.icon, { flexGrow: 1 }]} color={colors.black} />
